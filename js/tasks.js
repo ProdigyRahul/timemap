@@ -45,9 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
       noTasks.className = 'task-item empty';
       noTasks.textContent = 'No tasks for today. Add one below!';
       tasksListElement.appendChild(noTasks);
+      tasksListElement.style.overflow = 'visible'; // Prevent scrollbar when empty
+      tasksListElement.classList.remove('has-scroll');
       return;
     }
 
+    // We'll add the class after we've added all task elements
+    tasksListElement.style.overflow = 'hidden'; // Temporarily hide overflow
+    
     // Add each task
     tasks.forEach((task, index) => {
       const taskItem = document.createElement('div');
@@ -75,6 +80,18 @@ document.addEventListener('DOMContentLoaded', () => {
       
       tasksListElement.appendChild(taskItem);
     });
+    
+    // Check if we need scrolling
+    setTimeout(() => {
+      const needsScroll = tasksListElement.scrollHeight > tasksListElement.clientHeight;
+      if (needsScroll) {
+        tasksListElement.classList.add('has-scroll');
+        tasksListElement.style.overflow = 'auto';
+      } else {
+        tasksListElement.classList.remove('has-scroll');
+        tasksListElement.style.overflow = 'visible';
+      }
+    }, 10);
   }
 
   function addTask() {

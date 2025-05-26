@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Default settings
       theme: 'auto',
       dotShape: 'square',
-      dotSize: 3,
+      dotSize: 2,
       colorIntensity: 3,
       showQuotes: 'daily',
       showTasks: 'true'
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const defaultSettings = {
         theme: 'auto',
         dotShape: 'square',
-        dotSize: 3,
+        dotSize: 2,
         colorIntensity: 3,
         showQuotes: 'daily',
         showTasks: 'true'

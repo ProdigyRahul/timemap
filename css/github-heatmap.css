@@ -8,7 +8,7 @@
 
 .heatmap-wrapper {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
   background: transparent;
   border-radius: 12px;
   padding: var(--spacing-md);
@@ -29,11 +29,14 @@
 
 .gh-heatmap {
   width: 100%;
-  min-width: 730px;
-  height: 110px;
+  min-width: 100%;
+  height: auto;
   margin: 0 auto;
   position: relative;
   padding: var(--spacing-sm) 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .heatmap-loading {
@@ -113,7 +116,8 @@
 .gh-calendar-month {
   display: inline-flex;
   flex-direction: column;
-  margin-right: 4px;
+  margin-right: 2px;
+  flex: 1;
 }
 
 .gh-month-label {
@@ -128,16 +132,18 @@
 .gh-calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: 1px;
 }
 
 .gh-calendar-day {
-  width: 11px;
-  height: 11px;
-  margin: 1px;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  margin: 0;
   border-radius: 2px;
   background-color: var(--dot-empty);
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .gh-calendar-day:hover {
@@ -145,6 +151,38 @@
   border: none;
   box-shadow: 0 0 4px rgba(var(--color-accent-rgb), 0.5);
   z-index: 2;
+}
+
+/* Today's cell highlight */
+.gh-calendar-day.today {
+  position: relative;
+  box-shadow: 0 0 5px rgba(var(--color-accent-rgb), 0.7);
+  animation: pulse 2s infinite;
+}
+
+.gh-calendar-day.today::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid var(--color-text-primary);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 5px rgba(var(--color-accent-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0);
+  }
 }
 
 /* Circle shape option */
@@ -164,26 +202,21 @@
 
 /* Dot size variations */
 .gh-heatmap.size-1 .gh-calendar-day {
-  width: 8px;
-  height: 8px;
+  transform: scale(0.7);
 }
 
 .gh-heatmap.size-2 .gh-calendar-day {
-  width: 9px;
-  height: 9px;
+  transform: scale(0.85);
 }
 
 .gh-heatmap.size-3 .gh-calendar-day {
-  width: 11px;
-  height: 11px;
+  transform: scale(1);
 }
 
 .gh-heatmap.size-4 .gh-calendar-day {
-  width: 13px;
-  height: 13px;
+  transform: scale(1.15);
 }
 
 .gh-heatmap.size-5 .gh-calendar-day {
-  width: 15px;
-  height: 15px;
+  transform: scale(1.3);
 } 

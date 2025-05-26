@@ -8,7 +8,7 @@ const loadingElement = document.querySelector('.heatmap-loading');
 let yearData = {};
 let heatmapConfig = {
   shape: 'square',
-  size: 3,
+  size: 2,
   intensity: 3
 };
 
@@ -57,19 +57,14 @@ function generateHeatmapData() {
   
   for (let d = new Date(startDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
     const dateStr = formatDate(d);
-    const isWeekend = d.getDay() === 0 || d.getDay() === 6;
     
-    // Generate random activity value (more activity on weekdays)
-    let value = 0;
-    if (dateStr !== formatDate(today)) { // Past days
-      value = isWeekend 
-        ? Math.floor(Math.random() * 3) // 0-2 for weekends
-        : Math.floor(Math.random() * 5) + 1; // 1-5 for weekdays
-    } else { // Today
-      value = 3; // Medium activity for today
+    if (dateStr === formatDate(today)) {
+      // Today gets highlighted with highest activity level
+      yearData[dateStr] = 4; // Maximum activity level for today
+    } else {
+      // Previous days get a consistent medium activity level
+      yearData[dateStr] = 2; // Medium activity level for past days
     }
-    
-    yearData[dateStr] = value;
   }
   
   console.log(`Generated ${Object.keys(yearData).length} data points for heatmap`);
@@ -98,9 +93,10 @@ function renderGitHubHeatmap() {
   // Apply shape and size classes
   heatmapContainer.className = `gh-heatmap ${heatmapConfig.shape} size-${heatmapConfig.size}`;
   
-  // Get current year
+  // Get current year and today's date
   const now = new Date();
   const currentYear = now.getFullYear();
+  const today = formatDate(now);
   
   // Create 12 months
   for (let month = 0; month < 12; month++) {
@@ -149,6 +145,11 @@ function renderGitHubHeatmap() {
       
       // Apply activity level class
       dayElement.classList.add(`level-${activityLevel}`);
+      
+      // Mark today with special class
+      if (dateStr === today) {
+        dayElement.classList.add('today');
+      }
       
       // Set background color based on activity level
       const colors = [
