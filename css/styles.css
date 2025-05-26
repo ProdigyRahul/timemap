@@ -1,0 +1,492 @@
+/* Base Styles */
+:root {
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  --border-radius: 8px;
+  --transition-speed: 0.2s;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* These will be overridden by theme.css */
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-border: #e0e0e0;
+  --color-accent: #4caf50;
+  --color-accent-light: #a5d6a7;
+
+  --dot-empty: #e0e0e0;
+  --dot-level-1: #c6e48b;
+  --dot-level-2: #7bc96f;
+  --dot-level-3: #49af5d;
+  --dot-level-4: #2e8540;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header Styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.controls {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.controls button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-bg-secondary);
+  transition: background-color var(--transition-speed) ease;
+}
+
+.controls button:hover {
+  background-color: var(--color-border);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--color-text-secondary);
+  transition: fill var(--transition-speed) ease;
+}
+
+/* Hide/Show theme icons based on current theme */
+.theme-icon-light {
+  display: none;
+}
+
+.theme-icon-dark {
+  display: block;
+}
+
+body.light-theme .theme-icon-light {
+  display: block;
+}
+
+body.light-theme .theme-icon-dark {
+  display: none;
+}
+
+/* Stats Section */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Heatmap Section */
+.heatmap-container {
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--spacing-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.heatmap-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+}
+
+.month-labels {
+  display: flex;
+  margin-bottom: 6px;
+  padding-left: 20px; /* Space for day labels */
+}
+
+.month-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+}
+
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 3px;
+  margin-left: 20px; /* Space for day labels */
+}
+
+.day-labels {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  left: 10px;
+  top: 52px; /* Adjust based on month labels height */
+}
+
+.day-label {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heatmap-cell {
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  background-color: var(--dot-empty);
+  transition: background-color var(--transition-speed) ease, transform 0.1s ease;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.15);
+}
+
+.heatmap-cell.level-1 {
+  background-color: var(--dot-level-1);
+}
+
+.heatmap-cell.level-2 {
+  background-color: var(--dot-level-2);
+}
+
+.heatmap-cell.level-3 {
+  background-color: var(--dot-level-3);
+}
+
+.heatmap-cell.level-4 {
+  background-color: var(--dot-level-4);
+}
+
+.heatmap-cell.today {
+  border: 2px solid var(--color-text-primary);
+}
+
+/* Quote Section */
+.quote-section {
+  text-align: center;
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius);
+}
+
+.quote-text {
+  font-style: italic;
+  font-size: 18px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.quote-author {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Tasks Section */
+.tasks-section {
+  margin: var(--spacing-xl) 0;
+}
+
+.tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.tasks-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.tasks-list {
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+.task-checkbox {
+  margin-right: var(--spacing-md);
+  height: 20px;
+  width: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--color-accent);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.task-checkbox:checked {
+  background-color: var(--color-accent);
+}
+
+.task-checkbox:checked::after {
+  content: "✓";
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.task-text {
+  flex: 1;
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: var(--color-text-secondary);
+}
+
+.add-task {
+  display: flex;
+  margin-top: var(--spacing-md);
+}
+
+.add-task input {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: inherit;
+}
+
+.add-task button {
+  background-color: var(--color-accent);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+/* Settings Panel */
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 350px;
+  height: 100%;
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-md);
+  transition: right var(--transition-speed) ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.settings-panel.visible {
+  right: 0;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.settings-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.settings-content {
+  padding: var(--spacing-lg);
+}
+
+.settings-group {
+  margin-bottom: var(--spacing-xl);
+}
+
+.settings-group h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-accent);
+}
+
+.setting {
+  margin-bottom: var(--spacing-md);
+}
+
+.setting label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.setting select,
+.setting input[type="range"],
+.setting input[type="text"],
+.setting input[type="color"] {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+.setting select {
+  height: 40px;
+}
+
+.theme-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.theme-preview {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color var(--transition-speed) ease;
+}
+
+.theme-preview.active {
+  border-color: var(--color-accent);
+}
+
+.theme-preview.green {
+  background-color: #4caf50;
+}
+
+.theme-preview.blue {
+  background-color: #2196f3;
+}
+
+.theme-preview.purple {
+  background-color: #9c27b0;
+}
+
+.theme-preview.sunset {
+  background-color: #ff9800;
+}
+
+.theme-preview.high-contrast {
+  background-color: #000;
+  border: 1px solid #7fff00;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md);
+  }
+
+  .stats {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .heatmap {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(31, 1fr);
+  }
+}
+
+/* Shape variants */
+.heatmap.shape-circle .heatmap-cell {
+  border-radius: 50%;
+}
+
+.heatmap.shape-rounded .heatmap-cell {
+  border-radius: 4px;
+}
+
+.heatmap.shape-hexagon .heatmap-cell {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+} 

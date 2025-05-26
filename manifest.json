@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "TimeMap",
+  "version": "1.0.0",
+  "description": "New tab page with a beautiful visualization of your year progress and productivity tools",
+  "permissions": ["storage", "alarms"],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "16": "img/icons/icon16.png",
+    "48": "img/icons/icon48.png",
+    "128": "img/icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "img/icons/icon16.png",
+      "48": "img/icons/icon48.png",
+      "128": "img/icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "host_permissions": [],
+  "web_accessible_resources": [
+    {
+      "resources": ["css/*", "img/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+} 

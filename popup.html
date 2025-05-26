@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeMap</title>
+  <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header>
+      <h1>TimeMap</h1>
+    </header>
+
+    <div class="popup-content">
+      <div class="quick-stats">
+        <div class="stat">
+          <span class="stat-value" id="popup-year-progress">0%</span>
+          <span class="stat-label">Year Progress</span>
+        </div>
+      </div>
+
+      <div class="quick-settings">
+        <div class="setting">
+          <label for="popup-theme-select">Theme</label>
+          <select id="popup-theme-select">
+            <option value="auto">Auto</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="popup-buttons">
+        <button id="open-newtab">Open New Tab</button>
+        <button id="open-settings">All Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/popup.js"></script>
+</body>
+</html> 
