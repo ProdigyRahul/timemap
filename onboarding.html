@@ -101,6 +101,35 @@
     .cta-button:hover {
       background-color: var(--color-accent-light);
     }
+
+    .welcome-form {
+      background-color: rgba(76, 175, 80, 0.1);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin: var(--spacing-lg) 0;
+      text-align: center;
+    }
+
+    .welcome-form input {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid var(--color-accent-light);
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+    }
+
+    .welcome-form input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .welcome-form p {
+      margin-bottom: var(--spacing-md);
+    }
   </style>
 </head>
 <body>
@@ -110,6 +139,15 @@
   </header>
 
   <main>
+    <section class="welcome-form">
+      <h2>Let's Get Started</h2>
+      <p>Please enter your name so we can personalize your TimeMap experience</p>
+      <form id="username-form">
+        <input type="text" id="username-input" placeholder="Enter your name" required>
+        <button type="submit" class="cta-button">Continue</button>
+      </form>
+    </section>
+
     <section>
       <h2>How TimeMap Works</h2>
       <p>
@@ -147,15 +185,8 @@
         Click the settings icon in the top-right corner to customize the appearance and behavior of TimeMap.
       </p>
     </section>
-
-    <a href="chrome://newtab" class="cta-button">Try It Now</a>
   </main>
 
-  <script>
-    document.querySelector('.cta-button').addEventListener('click', (e) => {
-      e.preventDefault();
-      chrome.tabs.create({ url: 'chrome://newtab' });
-    });
-  </script>
+  <script src="js/onboarding.js"></script>
 </body>
 </html> 

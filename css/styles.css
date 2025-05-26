@@ -15,7 +15,10 @@
   --color-text-primary: #1a1a1a;
   --color-text-secondary: #666666;
   --color-border: #e0e0e0;
+  --color-border-rgb: 224, 224, 224;
   --color-accent: #4caf50;
+  --color-accent-rgb: 76, 175, 80;
+  --color-accent-secondary: #2e8540;
   --color-accent-light: #a5d6a7;
 
   --dot-empty: #e0e0e0;
@@ -43,6 +46,12 @@ html, body {
   background-color: var(--color-bg);
   color: var(--color-text-primary);
   transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+  background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+  background-attachment: fixed;
+}
+
+body.light-theme {
+  background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0));
 }
 
 button {
@@ -51,6 +60,11 @@ button {
   border: none;
   font-family: inherit;
   color: inherit;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.95);
 }
 
 .container {
@@ -68,6 +82,28 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-lg);
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-greeting {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacing-xs);
+}
+
+#user-greeting {
+  font-size: 16px;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.current-time {
+  font-size: 14px;
+  color: var(--color-text-secondary);
 }
 
 h1 {
@@ -123,26 +159,54 @@ body.light-theme .theme-icon-dark {
 /* Stats Section */
 .stats {
   display: flex;
-  justify-content: center;
-  gap: var(--spacing-xl);
+  justify-content: space-between;
+  gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: 12px;
+  background: transparent;
+  transition: transform 0.3s ease;
+}
+
+.stats:hover {
+  transform: translateY(-2px);
 }
 
 .stat {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  min-width: 120px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.stat:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(var(--color-accent-rgb), 0.08);
 }
 
 .stat-value {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: var(--spacing-xs);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .stat-label {
   font-size: 14px;
   color: var(--color-text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Heatmap Section */
@@ -154,6 +218,14 @@ body.light-theme .theme-icon-dark {
   margin-bottom: var(--spacing-lg);
   overflow: hidden;
   position: relative;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.heatmap-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
 .heatmap-wrapper {
@@ -207,7 +279,7 @@ body.light-theme .theme-icon-dark {
   height: 15px;
   border-radius: 2px;
   background-color: var(--dot-empty);
-  transition: background-color var(--transition-speed) ease, transform 0.1s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .heatmap-cell:hover {
@@ -232,6 +304,19 @@ body.light-theme .theme-icon-dark {
 
 .heatmap-cell.today {
   border: 2px solid var(--color-text-primary);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(76, 175, 80, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
 }
 
 /* Quote Section */
@@ -241,6 +326,14 @@ body.light-theme .theme-icon-dark {
   padding: var(--spacing-md);
   background-color: var(--color-bg-secondary);
   border-radius: var(--border-radius);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quote-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
 .quote-text {
@@ -256,7 +349,17 @@ body.light-theme .theme-icon-dark {
 
 /* Tasks Section */
 .tasks-section {
-  margin: var(--spacing-xl) 0;
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tasks-section:hover {
+  transform: translateY(-3px);
 }
 
 .tasks-header {
@@ -264,29 +367,52 @@ body.light-theme .theme-icon-dark {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid rgba(var(--color-border-rgb), 0.2);
+  padding-bottom: var(--spacing-sm);
 }
 
 .tasks-header h2 {
   font-size: 20px;
   font-weight: 600;
+  color: var(--color-text-primary);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#tasks-count {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  background: rgba(var(--color-accent-rgb), 0.1);
   color: var(--color-accent);
 }
 
 .tasks-list {
-  background-color: var(--color-bg-secondary);
-  border-radius: var(--border-radius);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0 var(--spacing-md);
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .task-item {
   display: flex;
   align-items: center;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-bottom: 1px solid var(--color-border);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
 }
 
-.task-item:last-child {
-  border-bottom: none;
+.task-item:hover {
+  background-color: rgba(var(--color-accent-rgb), 0.05);
+  transform: translateX(3px);
 }
 
 .task-checkbox {
@@ -326,24 +452,43 @@ body.light-theme .theme-icon-dark {
 
 .add-task {
   display: flex;
-  margin-top: var(--spacing-md);
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
 }
 
 .add-task input {
   flex: 1;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: 12px 16px;
+  border-radius: 8px;
   border: 1px solid var(--color-border);
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
-  background-color: var(--color-bg);
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
   color: var(--color-text-primary);
-  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.add-task input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(var(--color-accent-rgb), 0.2);
 }
 
 .add-task button {
-  background-color: var(--color-accent);
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
   color: white;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(var(--color-accent-rgb), 0.3);
+  transition: all 0.3s ease;
+}
+
+.add-task button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--color-accent-rgb), 0.4);
 }
 
 /* Settings Panel */
@@ -358,10 +503,18 @@ body.light-theme .theme-icon-dark {
   transition: right var(--transition-speed) ease;
   z-index: 1000;
   overflow-y: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .settings-panel.visible {
   right: 0;
+}
+
+.settings-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
 .settings-header {
@@ -489,4 +642,263 @@ body.light-theme .theme-icon-dark {
 
 .heatmap.shape-hexagon .heatmap-cell {
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Modern backgrounds with gradients */
+body.light-theme {
+  background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0));
+}
+
+/* Card styling */
+.stats, .heatmap-container, .quote-section, .tasks-section, .pomodoro-section, .settings-panel {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stats:hover, .heatmap-container:hover, .quote-section:hover, .tasks-section:hover, .pomodoro-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Modern button styling */
+button:active {
+  transform: scale(0.95);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-light);
+}
+
+/* For setting backgrounds */
+.wallpaper-applied {
+  /* We set this dynamically in JavaScript */
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.wallpaper-applied::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-bg);
+  opacity: 0.85;
+  z-index: -1;
+}
+
+.wallpaper-applied .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* GitHub-style Heatmap Styles for Cal-Heatmap */
+.github-heatmap {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  width: 100%;
+  overflow-x: auto;
+  min-height: 150px; /* Ensure minimum height so container is visible */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Heatmap Error Message */
+.heatmap-error {
+  padding: 15px;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  text-align: center;
+}
+
+body.dark-theme .heatmap-error {
+  color: #f8d7da;
+  background-color: #5a1e24;
+  border-color: #7f3d42;
+}
+
+/* Style the domain (month) labels */
+.ch-domain-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  fill: var(--color-text-secondary) !important; /* Force color with !important */
+}
+
+/* Style the day cells */
+.ch-subdomain-cell {
+  rx: 2px; /* Rounded corners */
+  stroke-width: 0;
+  fill-opacity: 1 !important; /* Make sure cells are fully opaque */
+}
+
+/* Add hover effect */
+.ch-subdomain-cell:hover {
+  stroke: var(--color-accent);
+  stroke-width: 1px;
+  cursor: pointer;
+}
+
+/* Make sure the colors work in dark mode */
+body.dark-theme .ch-subdomain-cell[data-value="0"] {
+  fill: #222 !important;
+}
+
+body.dark-theme .ch-subdomain-cell[data-value="1"] {
+  fill: var(--dot-level-1) !important;
+}
+
+body.dark-theme .ch-subdomain-cell[data-value="2"] {
+  fill: var(--dot-level-2) !important;
+}
+
+body.dark-theme .ch-subdomain-cell[data-value="3"] {
+  fill: var(--dot-level-3) !important;
+}
+
+body.dark-theme .ch-subdomain-cell[data-value="4"],
+body.dark-theme .ch-subdomain-cell[data-value="5"] {
+  fill: var(--dot-level-4) !important;
+}
+
+/* Shape styles for the dots */
+.heatmap.shape-circle .ch-subdomain-cell,
+#cal-heatmap.shape-circle .ch-subdomain-cell {
+  rx: 50%;
+  ry: 50%;
+}
+
+.heatmap.shape-rounded .ch-subdomain-cell,
+#cal-heatmap.shape-rounded .ch-subdomain-cell {
+  rx: 3px;
+  ry: 3px;
+}
+
+.heatmap.shape-hexagon .ch-subdomain-cell,
+#cal-heatmap.shape-hexagon .ch-subdomain-cell {
+  rx: 0;
+  ry: 0;
+  transform: rotate(0deg) skewX(-15deg) scale(0.9, 0.9);
+}
+
+/* Legend for the heatmap */
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  padding: 4px 0;
+}
+
+.legend-dots {
+  display: flex;
+  gap: 4px;
+  margin: 0 8px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  display: block;
+}
+
+.legend-dot.level-0 {
+  background-color: var(--dot-empty);
+}
+
+body.dark-theme .legend-dot.level-0 {
+  background-color: #222;
+}
+
+.legend-dot.level-1 {
+  background-color: var(--dot-level-1);
+}
+
+.legend-dot.level-2 {
+  background-color: var(--dot-level-2);
+}
+
+.legend-dot.level-3 {
+  background-color: var(--dot-level-3);
+}
+
+.legend-dot.level-4 {
+  background-color: var(--dot-level-4);
+}
+
+/* GitHub-style column orientation */
+.github-style .ch-subdomain-group {
+  flex-direction: column !important;
+}
+
+/* Tooltip styling */
+.ch-tooltip {
+  padding: 8px 12px;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .github-heatmap {
+    padding: var(--spacing-sm);
+  }
+  
+  .ch-subdomain-cell {
+    width: 10px !important;
+    height: 10px !important;
+  }
+}
+
+/* Heatmap Loading Indicator */
+.heatmap-loading {
+  text-align: center;
+  padding: 20px;
+  color: var(--color-text-secondary);
+  animation: pulse-opacity 1.5s infinite alternate;
+}
+
+@keyframes pulse-opacity {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+/* Make sure cal-heatmap properly displays in dark theme */
+body.dark-theme .github-heatmap {
+  background-color: rgba(255, 255, 255, 0.05);
 } 

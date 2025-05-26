@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TimeMap</title>
   <link rel="stylesheet" href="css/popup.css">
+  <link rel="stylesheet" href="css/themes.css">
 </head>
 <body>
   <div class="popup-container">
@@ -20,6 +21,23 @@
         </div>
       </div>
 
+      <section class="pomodoro-section">
+        <h2>Pomodoro Timer</h2>
+        <div class="pomodoro-display">
+          <div class="timer-display" id="timer-display">25:00</div>
+          <div class="timer-controls">
+            <button id="pomodoro-start" class="timer-btn">Start</button>
+            <button id="pomodoro-pause" class="timer-btn">Pause</button>
+            <button id="pomodoro-reset" class="timer-btn">Reset</button>
+          </div>
+        </div>
+        <div class="timer-mode-select">
+          <button class="timer-mode-btn active" data-mode="pomodoro" data-time="25">Pomodoro</button>
+          <button class="timer-mode-btn" data-mode="shortBreak" data-time="5">Short Break</button>
+          <button class="timer-mode-btn" data-mode="longBreak" data-time="15">Long Break</button>
+        </div>
+      </section>
+
       <div class="quick-settings">
         <div class="setting">
           <label for="popup-theme-select">Theme</label>
@@ -27,6 +45,10 @@
             <option value="auto">Auto</option>
             <option value="light">Light</option>
             <option value="dark">Dark</option>
+            <option value="blue">Blue</option>
+            <option value="purple">Purple</option>
+            <option value="sunset">Sunset</option>
+            <option value="high-contrast">High Contrast</option>
           </select>
         </div>
       </div>
@@ -39,5 +61,6 @@
   </div>
 
   <script src="js/popup.js"></script>
+  <script src="js/pomodoro.js"></script>
 </body>
 </html> 

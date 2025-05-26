@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const themeSelect = document.getElementById('theme-select');
   const dotShapeSelect = document.getElementById('dot-shape');
   const dotSizeInput = document.getElementById('dot-size');
+  const userGreeting = document.getElementById('user-greeting');
+  const currentTime = document.getElementById('current-time');
+  const usernameSetting = document.getElementById('username-setting');
+  const mainGoal = document.getElementById('main-goal');
+  const wallpaperUrl = document.getElementById('wallpaper-url');
   
   // Stats Elements
   const daysPassedElement = document.getElementById('days-passed');
@@ -16,10 +21,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // Get saved settings
   const settings = await chrome.storage.sync.get({
+    username: '',
     theme: 'auto',
     dotShape: 'square',
     dotSize: 3,
-    colorIntensity: 3
+    colorIntensity: 3,
+    mainGoal: '',
+    wallpaperUrl: ''
   });
   
   // Initialize UI with saved settings
@@ -29,9 +37,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Fallback if the function isn't defined elsewhere
     applyTheme(settings.theme);
   }
+
+  // Set username greeting
+  updateGreeting(settings.username);
+  
+  // Set the main goal if it exists
+  if (mainGoal && settings.mainGoal) {
+    mainGoal.value = settings.mainGoal;
+  }
+  
+  // Apply custom wallpaper if set
+  if (settings.wallpaperUrl) {
+    applyWallpaper(settings.wallpaperUrl);
+    if (wallpaperUrl) {
+      wallpaperUrl.value = settings.wallpaperUrl;
+    }
+  }
   
   // Update stats
   updateStats();
+  
+  // Update current time
+  updateCurrentTime();
+  
+  // Update time every second
+  setInterval(updateCurrentTime, 1000);
   
   // Event listeners
   if (settingsToggle) {
@@ -44,6 +74,36 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   if (themeToggle) {
     themeToggle.addEventListener('click', toggleTheme);
+  }
+  
+  // Username setting event listener
+  if (usernameSetting) {
+    // Load current username into the input
+    usernameSetting.value = settings.username;
+    
+    usernameSetting.addEventListener('change', () => {
+      const newUsername = usernameSetting.value.trim();
+      chrome.storage.sync.set({ username: newUsername }, () => {
+        updateGreeting(newUsername);
+      });
+    });
+  }
+  
+  // Main goal setting event listener
+  if (mainGoal) {
+    mainGoal.addEventListener('change', () => {
+      chrome.storage.sync.set({ mainGoal: mainGoal.value });
+    });
+  }
+  
+  // Wallpaper URL event listener
+  if (wallpaperUrl) {
+    wallpaperUrl.addEventListener('change', () => {
+      const url = wallpaperUrl.value.trim();
+      chrome.storage.sync.set({ wallpaperUrl: url }, () => {
+        applyWallpaper(url);
+      });
+    });
   }
   
   // Setup message listener for theme changes from popup
@@ -113,6 +173,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   
+  function updateGreeting(username) {
+    if (!userGreeting) return;
+    
+    const hour = new Date().getHours();
+    let greeting = '';
+    
+    if (hour < 12) {
+      greeting = 'Good morning';
+    } else if (hour < 18) {
+      greeting = 'Good afternoon';
+    } else {
+      greeting = 'Good evening';
+    }
+    
+    userGreeting.textContent = username ? `${greeting}, ${username}!` : greeting + "!";
+  }
+  
+  function updateCurrentTime() {
+    if (!currentTime) return;
+    
+    const now = new Date();
+    const options = { 
+      hour: 'numeric', 
+      minute: 'numeric',
+      hour12: true,
+      weekday: 'short',
+      month: 'short', 
+      day: 'numeric'
+    };
+    
+    currentTime.textContent = now.toLocaleString(undefined, options);
+  }
+  
   function updateStats() {
     const now = new Date();
     const startOfYear = new Date(now.getFullYear(), 0, 1);
@@ -137,5 +230,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Update tab title with progress
     document.title = `${progress}% of ${now.getFullYear()} - TimeMap`;
+  }
+  
+  function applyWallpaper(url) {
+    if (!url) {
+      document.body.style.backgroundImage = '';
+      document.body.classList.remove('wallpaper-applied');
+      return;
+    }
+    
+    // Create a temporary image to check if the URL is valid
+    const img = new Image();
+    img.onload = () => {
+      document.body.style.backgroundImage = `url('${url}')`;
+      document.body.classList.add('wallpaper-applied');
+    };
+    img.onerror = () => {
+      console.error('Invalid wallpaper URL');
+      document.body.style.backgroundImage = '';
+      document.body.classList.remove('wallpaper-applied');
+    };
+    img.src = url;
   }
 }); 

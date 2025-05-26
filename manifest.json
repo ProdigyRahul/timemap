@@ -23,7 +23,16 @@
   "background": {
     "service_worker": "js/background.js"
   },
-  "host_permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/content.js"],
+      "css": ["css/content.css"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self'"
+  },
   "web_accessible_resources": [
     {
       "resources": ["css/*", "img/*"],

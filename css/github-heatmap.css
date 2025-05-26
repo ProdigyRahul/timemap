@@ -1,0 +1,189 @@
+/* GitHub-style heatmap CSS */
+
+.heatmap-container {
+  width: 100%;
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.heatmap-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: transparent;
+  border-radius: 12px;
+  padding: var(--spacing-md);
+  transition: transform 0.3s ease;
+}
+
+.heatmap-wrapper:hover {
+  transform: translateY(-3px);
+}
+
+#github-heatmap {
+  min-height: 120px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gh-heatmap {
+  width: 100%;
+  min-width: 730px;
+  height: 110px;
+  margin: 0 auto;
+  position: relative;
+  padding: var(--spacing-sm) 0;
+}
+
+.heatmap-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 100%;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.heatmap-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 100%;
+  font-size: 14px;
+  color: var(--text-error);
+  text-align: center;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: var(--spacing-sm);
+  gap: 6px;
+}
+
+.legend-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.legend-dots {
+  display: flex;
+  gap: 3px;
+  margin: 0 5px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  transition: transform 0.2s ease;
+}
+
+.legend-dot:hover {
+  transform: scale(1.2);
+}
+
+/* Default colors */
+.legend-dot.level-0 {
+  background-color: var(--dot-empty);
+}
+
+.legend-dot.level-1 {
+  background-color: var(--dot-level-1);
+}
+
+.legend-dot.level-2 {
+  background-color: var(--dot-level-2);
+}
+
+.legend-dot.level-3 {
+  background-color: var(--dot-level-3);
+}
+
+.legend-dot.level-4 {
+  background-color: var(--dot-level-4);
+}
+
+/* GitHub style calendar cells */
+.gh-calendar-month {
+  display: inline-flex;
+  flex-direction: column;
+  margin-right: 4px;
+}
+
+.gh-month-label {
+  font-size: 10px;
+  text-align: center;
+  margin-bottom: 4px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.gh-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.gh-calendar-day {
+  width: 11px;
+  height: 11px;
+  margin: 1px;
+  border-radius: 2px;
+  background-color: var(--dot-empty);
+  transition: all 0.2s ease;
+}
+
+.gh-calendar-day:hover {
+  transform: scale(1.2);
+  border: none;
+  box-shadow: 0 0 4px rgba(var(--color-accent-rgb), 0.5);
+  z-index: 2;
+}
+
+/* Circle shape option */
+.gh-heatmap.circle .gh-calendar-day {
+  border-radius: 50%;
+}
+
+/* Rounded shape option */
+.gh-heatmap.rounded .gh-calendar-day {
+  border-radius: 3px;
+}
+
+/* Hexagon shape option */
+.gh-heatmap.hexagon .gh-calendar-day {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Dot size variations */
+.gh-heatmap.size-1 .gh-calendar-day {
+  width: 8px;
+  height: 8px;
+}
+
+.gh-heatmap.size-2 .gh-calendar-day {
+  width: 9px;
+  height: 9px;
+}
+
+.gh-heatmap.size-3 .gh-calendar-day {
+  width: 11px;
+  height: 11px;
+}
+
+.gh-heatmap.size-4 .gh-calendar-day {
+  width: 13px;
+  height: 13px;
+}
+
+.gh-heatmap.size-5 .gh-calendar-day {
+  width: 15px;
+  height: 15px;
+} 

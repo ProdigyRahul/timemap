@@ -31,8 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
   themePreviews.forEach(preview => {
     preview.addEventListener('click', () => {
       const theme = preview.getAttribute('data-theme');
-      themeSelect.value = theme;
-      saveThemeSetting({ target: { value: theme } });
+      
+      // Handle the theme class correctly
+      let actualTheme = theme;
+      
+      // If this is a color variant and not light/dark/auto, apply appropriate base theme
+      if (['blue', 'purple', 'sunset', 'high-contrast'].includes(theme)) {
+        // We need to preserve the actual theme name when saving
+        actualTheme = theme;
+      }
+      
+      themeSelect.value = actualTheme;
+      saveThemeSetting({ target: { value: actualTheme } });
       updateActiveThemePreview();
     });
   });
@@ -79,6 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({ theme: theme });
     
     // Apply theme immediately
+    applyThemeClass(theme);
+  }
+  
+  // Apply theme without altering the stored settings
+  function applyThemeClass(theme) {
+    // Remove all theme classes
     document.body.classList.remove('light-theme', 'dark-theme', 'blue-theme', 'purple-theme', 'sunset-theme', 'high-contrast-theme');
     
     if (theme === 'auto') {
@@ -93,19 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const shape = e.target.value;
     chrome.storage.sync.set({ dotShape: shape });
     
-    const heatmap = document.getElementById('heatmap');
-    if (heatmap) {
-      heatmap.classList.remove('shape-square', 'shape-circle', 'shape-rounded', 'shape-hexagon');
-      heatmap.classList.add(`shape-${shape}`);
-    }
+    // The new applyDotShape function will be called by storage.onChanged listener in github-heatmap.js
   }
   
   function saveDotSizeSetting(e) {
     const size = e.target.value;
     chrome.storage.sync.set({ dotSize: size });
     
-    // Update dot size in CSS
-    document.documentElement.style.setProperty('--dot-size', `${size * 5}px`);
+    // The new applyDotSize function will be called by storage.onChanged listener in github-heatmap.js
   }
   
   function saveColorIntensitySetting(e) {
@@ -160,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const themeClass = e.matches ? 'dark-theme' : 'light-theme';
         
         // Remove all theme classes
-        document.body.classList.remove('light-theme', 'dark-theme');
+        document.body.classList.remove('light-theme', 'dark-theme', 'blue-theme', 'purple-theme', 'sunset-theme', 'high-contrast-theme');
         
         // Add the appropriate theme class
         document.body.classList.add(themeClass);

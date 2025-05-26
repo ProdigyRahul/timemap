@@ -1,0 +1,189 @@
+/* CSS for TimeMap's floating timer on web pages */
+
+/* Timer Container */
+.timemap-timer-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 250px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  transition: width 0.3s ease, height 0.3s ease;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .timemap-timer-container {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    border: 1px solid #444;
+  }
+}
+
+/* Header */
+.timemap-timer-header {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: move;
+  border-radius: 8px 8px 0 0;
+}
+
+.timemap-timer-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.timemap-timer-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.timemap-timer-controls button {
+  background: none;
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.timemap-timer-controls button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Timer Content */
+.timemap-timer-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timemap-timer-display {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.timemap-timer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.timemap-timer-buttons button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.timemap-timer-buttons button:hover {
+  background-color: #45a049;
+}
+
+.timemap-timer-buttons button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.timemap-timer-modes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.timemap-mode-btn {
+  font-size: 12px;
+  border: 1px solid #ddd;
+  background: none;
+  padding: 3px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.timemap-mode-btn.active {
+  background-color: #e8f5e9;
+  color: #388e3c;
+  font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+  .timemap-timer-buttons button {
+    background-color: #388e3c;
+  }
+  
+  .timemap-timer-buttons button:hover {
+    background-color: #2e7d32;
+  }
+  
+  .timemap-mode-btn {
+    border-color: #444;
+  }
+  
+  .timemap-mode-btn.active {
+    background-color: #3e6a3e;
+    color: #ffffff;
+  }
+}
+
+/* Collapsed state */
+.timemap-timer-container.collapsed .timemap-timer-content {
+  display: none;
+}
+
+.timemap-timer-container.collapsed {
+  width: auto;
+}
+
+/* Reveal button */
+#timemap-reveal-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 9998;
+  font-size: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+#timemap-reveal-button:hover {
+  transform: scale(1.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  #timemap-reveal-button {
+    background-color: #388e3c;
+  }
+} 
