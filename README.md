@@ -1,4 +1,4 @@
-# TimeMap Chrome Extension 
+# TimeMap Chrome Extension
 
 A beautiful new tab replacement that visualizes your year's progress with a heatmap, inspired by GitHub's contribution graph. Watch as the days of the year fill up, giving you a visual representation of time passed and time remaining.
 
